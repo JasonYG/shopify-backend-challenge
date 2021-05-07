@@ -22,7 +22,7 @@ if (process.env.MONGO_URI) {
     // Throw error if MONGO_URI env variable doesn't exist
     throw Error('MONGO_URI missing from env variables');
   }
-app.get('/', (req, res) => {
+app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))
   })
 
