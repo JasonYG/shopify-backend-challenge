@@ -6,7 +6,7 @@
     "start": "concurrently \"npm run api\" \"npm run client\"",
     "client": "cd client && npm run start",
     "api": "nodemon server.ts",
-    "build": "cd client && npm run build"
+    "build": "cd client && npm i && npm run build"
   },
   "dependencies": {
     "aws-sdk": "^2.901.0",
