@@ -23,4 +23,4 @@ ImageHub is a proof-of-concept image repository that allows users to upload, sel
 ## Technical Details
 This app was written with a Node.js + Express backend, and a React frontend. 
 
-I used MongoDB as my database of choice, and used AWS S3 to house the images uploading by users.
+I used MongoDB as my database of choice, and used AWS S3 to house the images uploaded by users.
