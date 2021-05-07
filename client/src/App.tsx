@@ -5,8 +5,8 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Link,
   Redirect,
+  useHistory,
 } from "react-router-dom";
 import UploadImagePage from "./components/UploadImagePage";
 import SellImagePage from "./components/SellImagePage";
@@ -14,6 +14,7 @@ import BuyImagePage from "./components/BuyImagePage";
 
 const App = () => {
   const [currentTab, setCurrentTab] = useState(0);
+  const history = useHistory();
   useEffect(() => {
     // Get current tab by checking pathname
     const tab = tabs.findIndex(
