@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run api\" \"npm run client\"",
+    "start": "concurrently \"npm run api\" \"npm run client\"",
     "client": "cd client && npm run start",
-    "api": "nodemon server.ts"
+    "api": "nodemon server.ts",
+    "build": "cd client && npm run build"
   },
   "dependencies": {
     "aws-sdk": "^2.901.0",
@@ -19,6 +20,7 @@
     "jade": "~1.11.0",
     "mongoose": "^5.12.7",
     "morgan": "~1.9.1",
+    "netlify-lambda": "^2.0.6",
     "react-images-upload": "^1.2.8"
   },
   "devDependencies": {
