@@ -21,4 +21,6 @@ ImageHub is a proof-of-concept image repository that allows users to upload, sel
 2. Next, run `npm run test`. You should see a mock chrome tab open that runs the Puppeteer + Jest tests!
 
 ## Technical Details
-This app was written with a Node.js + Express backend, and a React frontend. I used MongoDB as my database of choice, and used AWS S3 to house the images uploading by users.
+This app was written with a Node.js + Express backend, and a React frontend. 
+
+I used MongoDB as my database of choice, and used AWS S3 to house the images uploading by users.
