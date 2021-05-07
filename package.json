@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node server.ts",
+    "start": "ts-node server.ts",
     "dev": "concurrently \"npm run api\" \"npm run client\"",
     "client": "cd client && npm run start",
     "api": "nodemon server.ts"
