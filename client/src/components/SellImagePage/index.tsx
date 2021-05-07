@@ -16,6 +16,7 @@ const SellImagePage = () => {
   const [username, setUsername] = useState("");
   const [toastActive, setToastActive] = useState(false);
   const [successToastActive, setSuccessToastActive] = useState(false);
+  const [soldToastActive, setSoldToastActive] = useState(false);
   const [images, setImages] = useState<any[]>([]);
   const [displayModal, setDisplayModal] = useState(false);
   const [currentImage, setCurrentImage] = useState({
@@ -32,10 +33,16 @@ const SellImagePage = () => {
     // Fetch images that belong to that username
     const response = await fetch(`/api/images/${username}`);
     const { images } = await response.json();
-    if (images.length === 0) {
+    // Show only items that are in inventory, i.e. status === 'inventory'
+
+    const filteredImages = images.filter(
+      (image: any) => image.status === "inventory"
+    );
+    if (filteredImages.length === 0) {
       setToastActive(true);
+      setImages([]);
     } else {
-      setImages(images);
+      setImages(filteredImages);
     }
   };
   const toggleActive = () => {
@@ -43,6 +50,9 @@ const SellImagePage = () => {
   };
   const toggleSuccessActive = () => {
     setSuccessToastActive((active) => !active);
+  };
+  const toggleSoldToast = () => {
+    setSoldToastActive((active) => !active);
   };
   const toggleDisplayModal = () => {
     setDisplayModal((displayModal) => !displayModal);
@@ -69,6 +79,7 @@ const SellImagePage = () => {
         image.name === updatedImage.name &&
         image.username === updatedImage.username
       ) {
+        updatedImage.price = updatedPrice;
         return updatedImage;
       } else {
         return image;
@@ -77,6 +88,24 @@ const SellImagePage = () => {
     setImages(updatedImages);
     toggleSuccessActive();
     toggleDisplayModal();
+  };
+  const handleSellImage = async (image: any) => {
+    const response = await fetch(`/api/sell-image`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        imageId: image._id,
+      }),
+    });
+    const { image: returnImage } = await response.json();
+    if (returnImage) {
+      // Remove return image from displayed images
+      setImages(images.filter((image) => image._id !== returnImage._id));
+      toggleSoldToast();
+    }
   };
   const noImagesToast = toastActive ? (
     <Toast
@@ -89,6 +118,13 @@ const SellImagePage = () => {
     <Toast
       content="Successfully changed price!"
       onDismiss={toggleSuccessActive}
+      duration={2000}
+    />
+  ) : null;
+  const soldToast = soldToastActive ? (
+    <Toast
+      content="Successfully put up for sale!"
+      onDismiss={toggleSoldToast}
       duration={2000}
     />
   ) : null;
@@ -148,7 +184,7 @@ const SellImagePage = () => {
             portrait
             primaryAction={{
               content: "Sell this image",
-              onAction: () => {},
+              onAction: () => handleSellImage(image),
             }}
             secondaryAction={{
               content: "Change price",
@@ -172,6 +208,7 @@ const SellImagePage = () => {
       })}
       {noImagesToast}
       {successToast}
+      {soldToast}
     </Frame>
   );
 };

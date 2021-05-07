@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { saveImageToDB, uploadImageToS3, getImagesFromUsername, updateImagePrice } from "../util/image";
+import { saveImageToDB, uploadImageToS3, getImagesFromUsername, updateImagePrice, setImageForSale, getSellingImages, buyImage } from "../util/image";
 var router = Router();
 
 /* POST for uploading images. */
@@ -34,5 +34,33 @@ router.post("/update-price", async (req, res, next) => {
 
   res.send({ image: imageObject });
 });
+
+/* POST for putting an image up for sale. */
+router.post("/sell-image", async (req, res, next) => {
+  const {
+    imageId
+  } = req.body;
+  const imageObject = await setImageForSale(imageId);
+
+  res.send({ image: imageObject });
+});
+
+/* GET for fetching selling images. */
+router.get("/selling-images", async (req, res, next) => {
+  const images = await getSellingImages();
+  res.send({images});
+});
+
+/* POST for buying an image. */
+router.post("/buy-image", async (req, res, next) => {
+  const {
+    imageId
+  } = req.body;
+  const imageObject = await buyImage(imageId);
+
+  res.send({ image: imageObject });
+});
+
+
 
 export default router;

@@ -71,7 +71,8 @@ export const saveImageToDB = async ({
         s3Url: imageS3Url,
         name,
         price,
-        username
+        username,
+        status: "inventory"
     })
 };
 
@@ -81,4 +82,14 @@ export const getImagesFromUsername = (username) => {
 
 export const updateImagePrice = ({ name, updatedPrice, username}) => {
   return Image.findOneAndUpdate({name, username}, {price: updatedPrice});
+}
+
+export const setImageForSale = (id) => {
+  return Image.findOneAndUpdate({_id: id}, {status: 'selling'});
+}
+export const getSellingImages = () => {
+  return Image.find({status: 'selling'});
+}
+export const buyImage = (id) => {
+  return Image.findOneAndUpdate({_id: id}, {status: 'sold'});
 }

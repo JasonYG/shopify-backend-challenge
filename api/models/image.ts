@@ -6,6 +6,7 @@ export interface ImageType extends Document {
   name: string;
   price: string;
   username: string;
+  status: string;
 }
 
 const ImageSchema = new Schema({
@@ -24,7 +25,11 @@ const ImageSchema = new Schema({
   username: {
     type: String,
     required: true
-}
+  },
+  status: {
+    type: String,
+    required: true
+  }
 });
 
 const Image = mongoose.model<ImageType>('Image', ImageSchema);
